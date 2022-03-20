@@ -1,5 +1,6 @@
 package me.rockyers.rocklib;
 
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RockLib extends JavaPlugin {
