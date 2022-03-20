@@ -305,11 +305,22 @@ public class Gui implements Listener {
         if (inventoryClicked == null || !inventoryClicked.equals(this.toInventory())) return;
         ev.setCancelled(!isIntractable);
         if ((!itemPermissions.containsKey(itemClicked) || whoClicked.hasPermission(itemPermissions.get(itemClicked))) && clickFunctions.containsKey(itemClicked)) {
-            int index = switch (clickType) {
-                case CREATIVE, LEFT -> 0;
-                case SHIFT_RIGHT, RIGHT -> 1;
-                case MIDDLE -> 2;
-                default -> 0;
+            int index;
+            switch (clickType) {
+                case CREATIVE:
+                case LEFT:
+                    index = 0;
+                    break;
+                case SHIFT_RIGHT:
+                case RIGHT:
+                    index = 1;
+                    break;
+                case MIDDLE:
+                    index = 2;
+                    break;
+                default:
+                    index = 0;
+                    break;
             };
             clickFunctions.get(itemClicked)[index].run();
         } else {
