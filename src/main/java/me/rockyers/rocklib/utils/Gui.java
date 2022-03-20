@@ -266,7 +266,7 @@ public class Gui implements Listener {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(inventory, name, getRows(), getClickFunctions(), getItemPermissions(), isIntractable());
+        int result = Objects.hash(inventory, getName(), getRows(), getClickFunctions(), getItemPermissions(), isTakeItemOnNoPerm(), isIntractable(), isUseCustomListener(), isCloseInventoryOnNoPerm(), isSoundOnNoPerm(), getNoPermError());
         result = 31 * result + Arrays.hashCode(getItems());
         return result;
     }
