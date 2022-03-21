@@ -7,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Vehicle;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,14 +47,6 @@ public class PlayerUtil {
         }
     }
 
-    public boolean isNearVehicle(final Player player) {
-        for (final Entity entity : getEntitiesWithinRadius(player.getLocation(), 2)) {
-            if (entity instanceof Vehicle) return true;
-        }
-
-        return false;
-    }
-
     public List<Entity> getEntitiesWithinRadius(final Location location, final double radius) {
 
         final double expander = 16.0D;
@@ -92,9 +83,5 @@ public class PlayerUtil {
         }
 
         return entities;
-    }
-
-    public boolean isHoldingSword(final Player player) {
-        return player.getItemInHand().getType().toString().toLowerCase().contains("sword");
     }
 }

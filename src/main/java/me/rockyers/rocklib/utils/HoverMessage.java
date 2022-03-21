@@ -56,39 +56,44 @@ public class HoverMessage {
         return mainComponent;
     }
 
-    public void setClickEvent(ClickEvent.Action clickEvent) {
+    public HoverMessage setClickEvent(ClickEvent.Action clickEvent) {
         this.clickEvent = clickEvent;
+        return this;
     }
 
     public ClickEvent.Action getClickEvent() {
         return clickEvent;
     }
 
-    public void setClickString(String clickString) {
+    public HoverMessage setClickString(String clickString) {
         this.clickString = clickString;
+        return this;
     }
 
     public String getClickString() {
         return clickString;
     }
 
-    public void setHoverMsg(String hoverMsg) {
+    public HoverMessage setHoverMsg(String hoverMsg) {
         this.hoverMsg = hoverMsg;
+        return this;
     }
 
     public String getHoverMsg() {
         return hoverMsg;
     }
 
-    public void setMsg(String msg) {
+    public HoverMessage setMsg(String msg) {
         this.msg = msg;
+        return this;
     }
 
     public String getMsg() {
         return msg;
     }
 
-    public void setTextComponent(TextComponent mainComponent) {
+    public HoverMessage setTextComponent(TextComponent mainComponent) {
         this.mainComponent = mainComponent;
+        return this;
     }
 }

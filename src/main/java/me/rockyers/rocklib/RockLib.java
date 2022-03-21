@@ -1,6 +1,7 @@
 package me.rockyers.rocklib;
 
-import lombok.Getter;
+import me.rockyers.rocklib.utils.CC;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RockLib extends JavaPlugin {
@@ -11,10 +12,11 @@ public final class RockLib extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        Bukkit.getConsoleSender().sendMessage(CC.translate("&b&lRockLib has been enabled!"));
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
 }

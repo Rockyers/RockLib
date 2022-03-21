@@ -145,36 +145,44 @@ public class Gui implements Listener {
         this.closeInventoryOnNoPerm = closeInventoryOnNoPerm;
     }
 
-    public void intractable(boolean intractable) {
+    public Gui setIntractable(boolean intractable) {
         isIntractable = intractable;
+        return this;
     }
 
-    public void setSoundOnNoPerm(boolean soundOnNoPerm) {
+    public Gui setSoundOnNoPerm(boolean soundOnNoPerm) {
         this.soundOnNoPerm = soundOnNoPerm;
+        return this;
     }
 
-    public void takeItemOnNoPerm(boolean takeItemOnNoPerm) {
+    public Gui setTakeItemOnNoPerm(boolean takeItemOnNoPerm) {
         this.takeItemOnNoPerm = takeItemOnNoPerm;
+        return this;
     }
 
-    public void useCustomListener(boolean useCustomListener) {
+    public Gui setUseCustomListener(boolean useCustomListener) {
         this.useCustomListener = useCustomListener;
+        return this;
     }
 
-    public void setInventory(Inventory inventory) {
+    public Gui setInventory(Inventory inventory) {
         this.inventory = inventory;
+        return this;
     }
 
-    public void setName(String name) {
+    public Gui setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setRows(int rows) {
+    public Gui setRows(int rows) {
         this.rows = rows;
+        return this;
     }
 
-    public void setNoPermError(String noPermError) {
+    public Gui setNoPermError(String noPermError) {
         this.noPermError = noPermError;
+        return this;
     }
 
     // Getters.
