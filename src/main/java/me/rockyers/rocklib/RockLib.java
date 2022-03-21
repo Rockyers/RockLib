@@ -1,6 +1,7 @@
 package me.rockyers.rocklib;
 
 import me.rockyers.rocklib.utils.CC;
+import me.rockyers.rocklib.utils.Gui;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

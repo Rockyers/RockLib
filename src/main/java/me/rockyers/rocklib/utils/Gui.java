@@ -19,9 +19,9 @@ import java.util.Objects;
 
 public class Gui implements Listener {
 
-    // ------------------------------------- //
-    // Instance variables.
-
+    /**
+     * Interface Variables
+     */
     private Inventory inventory;
     private String name;
     private int rows = 3;
@@ -34,9 +34,19 @@ public class Gui implements Listener {
 
     private String noPermError = "&cNo Permission!";
 
-
-    // ------------------------------------- //
-    // Constructors.
+    /**
+     * Constructors
+     * <p>
+     * The first constructor includes the option for HashMaps for clickFunctions and itemPermissions
+     * These are advanced options and should almost never be used
+     * </p>
+     *
+     * @param guiName The name of the Bukkit inventory
+     * @param rows The number of rows that the GUI has
+     * @param items The ItemStack[] that defines the items in the GUI
+     * @param clickFunctions The map of ClickFunctions. !ADVANCED!
+     * @param itemPermissions The map of ItemPermissions. !ADVANCED!
+     */
 
     public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions) {
         RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
@@ -73,11 +83,21 @@ public class Gui implements Listener {
         this.name = guiName;
     }
 
-
-    // ------------------------------------- //
-    // Helper methods.
-
-    // Setters.
+    /**
+     * Helper Methods
+     *
+     * <p>
+     * ItemSetters:
+     * </p>
+     *
+     * @param item (ItemStack) The item that should be put into the GUI
+     * @param slot (int) The slot of the GUI that the item should be put in
+     * @param leftClickFnc (Runnable) What gets run when left-clicked
+     * @param rightClickFnc (Runnable) What gets run when right-clicked
+     * @param middleClickFnc (Runnable) What gets run when middle-clicked
+     * @param permission (String) The permission required to use the item
+     * @return This object, for method chaining
+     */
     public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc, Runnable rightClickFnc, Runnable middleClickFnc, String permission) {
         items[slot] = item;
         clickFunctions.put(item, new Runnable[]{leftClickFnc, rightClickFnc, middleClickFnc});

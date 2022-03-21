@@ -2,6 +2,7 @@ package me.rockyers.rocklib.utils;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.rockyers.rocklib.RockLib;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -44,17 +45,20 @@ public class Item implements Listener {
         }
         this.enchantments = itemStack.getEnchantments();
         this.unbreakable = itemStack.getItemMeta().isUnbreakable();
+        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
     }
 
     public Item(Material material) {
         this.material = material;
         itemStack = new ItemStack(this.material);
+        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
     }
 
     public Item(String name, Material material) {
         this.material = material;
         this.name = name;
         itemStack = new ItemStack(this.material);
+        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
     }
 
     public Item(Material material, String name, ArrayList<String> lore) {
@@ -62,6 +66,7 @@ public class Item implements Listener {
         this.name = name;
         this.lore = lore;
         itemStack = new ItemStack(this.material);
+        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
     }
 
     public Item(Material material, String name, String lore) {
@@ -69,6 +74,7 @@ public class Item implements Listener {
         this.name = name;
         this.lore.add(lore);
         itemStack = new ItemStack(this.material);
+        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
     }
 
     public Item AddLore(String nextLine) {
