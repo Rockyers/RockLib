@@ -7,23 +7,24 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @UtilityClass
 public class PlayerUtil {
-    public void send(Player p, String msg) {
+    public void send(@NotNull Player p, String msg) {
         p.sendMessage(CC.translate(msg));
     }
 
-    public void send(Player p, String[] msg) {
+    public void send(Player p, String @NotNull [] msg) {
         for (String s : msg) {
             p.sendMessage(CC.translate(s));
         }
     }
 
-    public void send(Player p, TextComponent textComponent) {
+    public void send(@NotNull Player p, TextComponent textComponent) {
         p.spigot().sendMessage(textComponent);
     }
 
@@ -47,7 +48,7 @@ public class PlayerUtil {
         }
     }
 
-    public List<Entity> getEntitiesWithinRadius(final Location location, final double radius) {
+    public List<Entity> getEntitiesWithinRadius(final @NotNull Location location, final double radius) {
 
         final double expander = 16.0D;
 
