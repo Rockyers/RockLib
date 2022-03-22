@@ -96,7 +96,7 @@ public class ItemConstructer {
             SkullMeta sMeta = (SkullMeta) meta;
             if (skullSkinOwner != null) sMeta.setOwningPlayer(skullSkinOwner);
         }
-        if (!enchantments.isEmpty()) finalItem.addEnchantments(enchantments);
+        if (enchantments != null && !enchantments.isEmpty()) finalItem.addEnchantments(enchantments);
         finalItem.setItemMeta(meta);
         return this.finalItem;
     }
