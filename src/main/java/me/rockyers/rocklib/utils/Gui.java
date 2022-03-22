@@ -1,5 +1,6 @@
 package me.rockyers.rocklib.utils;
 
+import lombok.Getter;
 import me.rockyers.rocklib.RockLib;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,6 +12,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -34,6 +36,8 @@ public class Gui implements Listener {
 
     private String noPermError = "&cNo Permission!";
 
+    private JavaPlugin plugin = null;
+
     /**
      * Constructors
      * <p>
@@ -48,39 +52,44 @@ public class Gui implements Listener {
      * @param itemPermissions The map of ItemPermissions. !ADVANCED!
      */
 
-    public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions) {
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+    public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions, JavaPlugin plugin) {
         this.items = items;
         this.clickFunctions = clickFunctions;
         this.itemPermissions = itemPermissions;
         this.rows = rows;
         this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, int rows, ItemStack[] items) {
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+    public Gui(String guiName, int rows, ItemStack[] items, JavaPlugin plugin) {
         this.items = items;
         this.rows = rows;
         this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, ItemStack[] items) {
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+    public Gui(String guiName, ItemStack[] items, JavaPlugin plugin) {
         this.items = items;
         this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, int rows) {
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+    public Gui(String guiName, int rows, JavaPlugin plugin) {
         items = new ItemStack[rows * 9];
         this.rows = rows;
         this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName) {
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+    public Gui(String guiName, JavaPlugin plugin) {
         items = new ItemStack[rows * 9];
         this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     /**
@@ -205,6 +214,12 @@ public class Gui implements Listener {
         return this;
     }
 
+    public Gui setPlugin(JavaPlugin plugin) {
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        return this;
+    }
+
     // Getters.
     public ItemStack getItem(int itemSlot) {
         return items[itemSlot];
@@ -248,6 +263,10 @@ public class Gui implements Listener {
 
     public Inventory toInventory() {
         return inventory;
+    }
+
+    public JavaPlugin getPlugin() {
+        return plugin;
     }
 
     // ------------------------------------- //

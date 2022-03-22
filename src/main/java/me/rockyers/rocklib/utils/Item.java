@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.rockyers.rocklib.RockLib;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +35,11 @@ public class Item implements Listener {
     @Getter private String permission, noPermErrorMsg;
     @Getter private boolean soundOnNoPerm = true;
 
+    @Getter private JavaPlugin plugin;
+
     ItemStack itemStack;
 
-    public Item(ItemStack itemStack) {
+    public Item(@NotNull ItemStack itemStack, JavaPlugin plugin) {
         this.itemStack = itemStack;
         this.material = itemStack.getType();
         this.name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
@@ -45,36 +50,36 @@ public class Item implements Listener {
         }
         this.enchantments = itemStack.getEnchantments();
         this.unbreakable = itemStack.getItemMeta().isUnbreakable();
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Item(Material material) {
+    public Item(Material material, @NotNull JavaPlugin plugin) {
         this.material = material;
         itemStack = new ItemStack(this.material);
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Item(String name, Material material) {
+    public Item(String name, Material material, @NotNull JavaPlugin plugin) {
         this.material = material;
         this.name = name;
         itemStack = new ItemStack(this.material);
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Item(Material material, String name, ArrayList<String> lore) {
+    public Item(Material material, String name, ArrayList<String> lore, @NotNull JavaPlugin plugin) {
         this.material = material;
         this.name = name;
         this.lore = lore;
         itemStack = new ItemStack(this.material);
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Item(Material material, String name, String lore) {
+    public Item(Material material, String name, String lore, @NotNull JavaPlugin plugin) {
         this.material = material;
         this.name = name;
         this.lore.add(lore);
         itemStack = new ItemStack(this.material);
-        RockLib.getInstance().getServer().getPluginManager().registerEvents(this, RockLib.getInstance());
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public Item AddLore(String nextLine) {
@@ -118,6 +123,12 @@ public class Item implements Listener {
         return this;
     }
 
+    public Item setPlugin(@NotNull JavaPlugin plugin) {
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        return this;
+    }
+
     public Item setSoundOnNoPerm(boolean soundOnNoPerm) {
         this.soundOnNoPerm = soundOnNoPerm;
         return this;
@@ -140,7 +151,7 @@ public class Item implements Listener {
     }
 
     @EventHandler
-    public void onClick(PlayerInteractEvent ev) {
+    public void onClick(@NotNull PlayerInteractEvent ev) {
         Action action = ev.getAction();
         Player player = ev.getPlayer();
         if (itemFunctions.containsKey(action)) {
@@ -148,6 +159,7 @@ public class Item implements Listener {
                 itemFunctions.get(action).run();
             } else {
                 if (!noPermErrorMsg.isEmpty()) player.sendMessage(CC.translate(noPermErrorMsg));
+                if (soundOnNoPerm) player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 100, 1);
             }
         }
     }
