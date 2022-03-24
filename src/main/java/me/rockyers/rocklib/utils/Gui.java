@@ -1,16 +1,17 @@
 package me.rockyers.rocklib.utils;
 
-import lombok.Getter;
-import me.rockyers.rocklib.RockLib;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -25,18 +26,20 @@ public class Gui implements Listener {
      * Interface Variables
      */
     private Inventory inventory;
+    private InventoryType type = InventoryType.CHEST;
     private String name;
     private int rows = 3;
     private ItemStack[] items;
     private HashMap<ItemStack, Runnable[]> clickFunctions = new HashMap<>();
     private HashMap<ItemStack, String> itemPermissions = new HashMap<>();
+    private ItemStack filler = null;
 
     private boolean takeItemOnNoPerm, isIntractable, useCustomListener = false;
     private boolean closeInventoryOnNoPerm, soundOnNoPerm = true;
 
     private String noPermError = "&cNo Permission!";
 
-    private JavaPlugin plugin = null;
+    private JavaPlugin plugin;
 
     /**
      * Constructors
@@ -52,7 +55,7 @@ public class Gui implements Listener {
      * @param itemPermissions The map of ItemPermissions. !ADVANCED!
      */
 
-    public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions, JavaPlugin plugin) {
+    public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions, @NotNull JavaPlugin plugin) {
         this.items = items;
         this.clickFunctions = clickFunctions;
         this.itemPermissions = itemPermissions;
@@ -62,7 +65,7 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, int rows, ItemStack[] items, JavaPlugin plugin) {
+    public Gui(String guiName, int rows, ItemStack[] items, @NotNull JavaPlugin plugin) {
         this.items = items;
         this.rows = rows;
         this.name = guiName;
@@ -70,14 +73,14 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, ItemStack[] items, JavaPlugin plugin) {
+    public Gui(String guiName, ItemStack[] items, @NotNull JavaPlugin plugin) {
         this.items = items;
         this.name = guiName;
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, int rows, JavaPlugin plugin) {
+    public Gui(String guiName, int rows, @NotNull JavaPlugin plugin) {
         items = new ItemStack[rows * 9];
         this.rows = rows;
         this.name = guiName;
@@ -85,7 +88,7 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, JavaPlugin plugin) {
+    public Gui(String guiName, @NotNull JavaPlugin plugin) {
         items = new ItemStack[rows * 9];
         this.name = guiName;
         this.plugin = plugin;
@@ -170,8 +173,9 @@ public class Gui implements Listener {
         return this;
     }
 
-    public void closeInventoryOnNoPerm(boolean closeInventoryOnNoPerm) {
+    public Gui setCloseInventoryOnNoPerm(boolean closeInventoryOnNoPerm) {
         this.closeInventoryOnNoPerm = closeInventoryOnNoPerm;
+        return this;
     }
 
     public Gui setIntractable(boolean intractable) {
@@ -214,9 +218,31 @@ public class Gui implements Listener {
         return this;
     }
 
-    public Gui setPlugin(JavaPlugin plugin) {
+    public Gui setFiller(ItemStack filler) {
+        this.filler = filler;
+        return this;
+    }
+
+    public Gui setPlugin(@NotNull JavaPlugin plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        return this;
+    }
+
+    public Gui updateFillerItem() {
+        for (int i = 0; i < items.length; i++) {
+            if ((items[i] != null && !items[i].getType().equals(Material.AIR)) && filler != null) {
+                items[i] = filler;
+            }
+        }
+        return this;
+    }
+
+    public Gui refresh(@NotNull Player player) {
+        if (player.getOpenInventory().getTitle().equals(CC.translate(name))) {
+            updateFillerItem();
+            inventory.setContents(items);
+        }
         return this;
     }
 
@@ -265,6 +291,10 @@ public class Gui implements Listener {
         return inventory;
     }
 
+    public ItemStack getFiller() {
+        return filler;
+    }
+
     public JavaPlugin getPlugin() {
         return plugin;
     }
@@ -274,7 +304,11 @@ public class Gui implements Listener {
     //
     // These methods are for very advanced usage, and you should not have to use them!
 
-    // @Deprecated
+    /**
+     * THIS IS DEPRECATED!
+     * Use the new .refresh() method
+     */
+    @Deprecated
     public void refreshGuiContents() {
         this.inventory.setContents(this.items);
     }
@@ -319,9 +353,10 @@ public class Gui implements Listener {
     }
 
     public void openGui(Player player) {
-        this.inventory = Bukkit.createInventory(player, this.rows * 9, ChatColor.translateAlternateColorCodes('&', this.name));
-        this.inventory.setContents(this.items);
-        player.openInventory(this.inventory);
+        inventory = Bukkit.createInventory(player, this.rows * 9, ChatColor.translateAlternateColorCodes('&', this.name));
+        updateFillerItem();
+        inventory.setContents(items);
+        player.openInventory(inventory);
     }
 
     /**
@@ -368,7 +403,7 @@ public class Gui implements Listener {
                 default:
                     index = 0;
                     break;
-            };
+            }
             clickFunctions.get(itemClicked)[index].run();
         } else {
             ev.setCancelled(!takeItemOnNoPerm);
