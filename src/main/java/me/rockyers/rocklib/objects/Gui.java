@@ -1,6 +1,7 @@
-package me.rockyers.rocklib.utils;
+package me.rockyers.rocklib.objects;
 
 import lombok.Getter;
+import me.rockyers.rocklib.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -62,7 +63,7 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(Inventory inventory, JavaPlugin plugin) {
+    public Gui(@NotNull Inventory inventory, @NotNull JavaPlugin plugin) {
         this.inventory = inventory;
         this.type = inventory.getType();
         this.items = inventory.getContents();

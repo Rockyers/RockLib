@@ -1,5 +1,6 @@
-package me.rockyers.rocklib.utils;
+package me.rockyers.rocklib.objects;
 
+import me.rockyers.rocklib.utils.CC;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -45,7 +46,7 @@ public class HoverMessage {
         this.msg = CC.translate(msg);
     }
 
-    public TextComponent getTextComponent() {
+    public TextComponent toTextComponent() {
         mainComponent = new TextComponent(msg);
         if (hoverMsg != null) {
             mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMsg).create()));

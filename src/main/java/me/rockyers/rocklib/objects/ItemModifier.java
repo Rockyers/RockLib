@@ -1,4 +1,4 @@
-package me.rockyers.rocklib.utils;
+package me.rockyers.rocklib.objects;
 
 import org.bukkit.inventory.ItemStack;
 

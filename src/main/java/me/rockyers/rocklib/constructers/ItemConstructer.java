@@ -1,10 +1,8 @@
-package me.rockyers.rocklib.utils;
+package me.rockyers.rocklib.constructers;
 
-import lombok.Getter;
-import lombok.Setter;
+import me.rockyers.rocklib.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Skull;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

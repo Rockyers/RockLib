@@ -1,8 +1,7 @@
-package me.rockyers.rocklib.utils;
+package me.rockyers.rocklib.objects;
 
 import lombok.Getter;
-import lombok.Setter;
-import me.rockyers.rocklib.RockLib;
+import me.rockyers.rocklib.utils.CC;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
