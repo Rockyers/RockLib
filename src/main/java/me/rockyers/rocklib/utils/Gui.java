@@ -1,5 +1,6 @@
 package me.rockyers.rocklib.utils;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,7 +12,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -26,34 +26,49 @@ public class Gui implements Listener {
      * Interface Variables
      */
     private Inventory inventory;
-    private InventoryType type = InventoryType.CHEST;
-    private String name;
-    private int rows = 3;
-    private ItemStack[] items;
+    @Getter private InventoryType type = InventoryType.CHEST;
+    @Getter private String name;
+    @Getter private int rows = 3;
+    @Getter private ItemStack[] items;
     private HashMap<ItemStack, Runnable[]> clickFunctions = new HashMap<>();
     private HashMap<ItemStack, String> itemPermissions = new HashMap<>();
-    private ItemStack filler = null;
+    @Getter private ItemStack filler = null;
 
-    private boolean takeItemOnNoPerm, isIntractable, useCustomListener = false;
-    private boolean closeInventoryOnNoPerm, soundOnNoPerm = true;
+    @Getter private boolean takeItemOnNoPerm, isIntractable, useCustomListener = false;
+    @Getter private boolean closeInventoryOnNoPerm, soundOnNoPerm = true;
 
-    private String noPermError = "&cNo Permission!";
+    @Getter private String noPermError = "&cNo Permission!";
 
-    private JavaPlugin plugin;
+    @Getter private JavaPlugin plugin;
 
     /**
      * Constructors
-     * <p>
-     * The first constructor includes the option for HashMaps for clickFunctions and itemPermissions
-     * These are advanced options and should almost never be used
-     * </p>
-     *
-     * @param guiName The name of the Bukkit inventory
-     * @param rows The number of rows that the GUI has
-     * @param items The ItemStack[] that defines the items in the GUI
-     * @param clickFunctions The map of ClickFunctions. !ADVANCED!
-     * @param itemPermissions The map of ItemPermissions. !ADVANCED!
      */
+    public Gui(Gui gui, JavaPlugin plugin) {
+        this.filler = gui.getFiller();
+        this.clickFunctions = gui.getClickFunctions();
+        this.closeInventoryOnNoPerm = gui.isCloseInventoryOnNoPerm();
+        this.isIntractable = gui.isIntractable;
+        this.itemPermissions = gui.getItemPermissions();
+        this.name = gui.getName();
+        this.noPermError = gui.getNoPermError();
+        this.soundOnNoPerm = gui.isSoundOnNoPerm();
+        this.takeItemOnNoPerm = gui.isTakeItemOnNoPerm();
+        this.useCustomListener = gui.isUseCustomListener();
+        this.rows = gui.getRows();
+        this.type = gui.getType();
+        this.inventory = gui.toInventory();
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    public Gui(Inventory inventory, JavaPlugin plugin) {
+        this.inventory = inventory;
+        this.type = inventory.getType();
+        this.items = inventory.getContents();
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
     public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions, @NotNull JavaPlugin plugin) {
         this.items = items;
@@ -65,9 +80,27 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    public Gui(String guiName, InventoryType type, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions, @NotNull JavaPlugin plugin) {
+        this.items = items;
+        this.clickFunctions = clickFunctions;
+        this.itemPermissions = itemPermissions;
+        this.type = type;
+        this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
     public Gui(String guiName, int rows, ItemStack[] items, @NotNull JavaPlugin plugin) {
         this.items = items;
         this.rows = rows;
+        this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    public Gui(String guiName, InventoryType type, ItemStack[] items, @NotNull JavaPlugin plugin) {
+        this.items = items;
+        this.type = type;
         this.name = guiName;
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -88,6 +121,14 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    public Gui(String guiName, InventoryType type, @NotNull JavaPlugin plugin) {
+        items = new ItemStack[rows * 9];
+        this.type = type;
+        this.name = guiName;
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
     public Gui(String guiName, @NotNull JavaPlugin plugin) {
         items = new ItemStack[rows * 9];
         this.name = guiName;
@@ -97,18 +138,6 @@ public class Gui implements Listener {
 
     /**
      * Helper Methods
-     *
-     * <p>
-     * ItemSetters:
-     * </p>
-     *
-     * @param item (ItemStack) The item that should be put into the GUI
-     * @param slot (int) The slot of the GUI that the item should be put in
-     * @param leftClickFnc (Runnable) What gets run when left-clicked
-     * @param rightClickFnc (Runnable) What gets run when right-clicked
-     * @param middleClickFnc (Runnable) What gets run when middle-clicked
-     * @param permission (String) The permission required to use the item
-     * @return This object, for method chaining
      */
     public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc, Runnable rightClickFnc, Runnable middleClickFnc, String permission) {
         items[slot] = item;
@@ -198,11 +227,6 @@ public class Gui implements Listener {
         return this;
     }
 
-    public Gui setInventory(Inventory inventory) {
-        this.inventory = inventory;
-        return this;
-    }
-
     public Gui setName(String name) {
         this.name = name;
         return this;
@@ -223,26 +247,14 @@ public class Gui implements Listener {
         return this;
     }
 
+    public Gui setType(InventoryType type) {
+        this.type = type;
+        return this;
+    }
+
     public Gui setPlugin(@NotNull JavaPlugin plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        return this;
-    }
-
-    public Gui updateFillerItem() {
-        for (int i = 0; i < items.length; i++) {
-            if ((items[i] != null && !items[i].getType().equals(Material.AIR)) && filler != null) {
-                items[i] = filler;
-            }
-        }
-        return this;
-    }
-
-    public Gui refresh(@NotNull Player player) {
-        if (player.getOpenInventory().getTitle().equals(CC.translate(name))) {
-            updateFillerItem();
-            inventory.setContents(items);
-        }
         return this;
     }
 
@@ -251,52 +263,10 @@ public class Gui implements Listener {
         return items[itemSlot];
     }
 
-    public ItemStack[] getItems() {
-        return items;
-    }
-
-    public boolean isCloseInventoryOnNoPerm() {
-        return closeInventoryOnNoPerm;
-    }
-
-    public boolean isIntractable() {
-        return isIntractable;
-    }
-
-    public boolean isSoundOnNoPerm() {
-        return soundOnNoPerm;
-    }
-
-    public boolean isTakeItemOnNoPerm() {
-        return takeItemOnNoPerm;
-    }
-
-    public boolean isUseCustomListener() {
-        return useCustomListener;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getNoPermError() {
-        return noPermError;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
     public Inventory toInventory() {
+        updateFillerItem();
+        inventory.setContents(items);
         return inventory;
-    }
-
-    public ItemStack getFiller() {
-        return filler;
-    }
-
-    public JavaPlugin getPlugin() {
-        return plugin;
     }
 
     // ------------------------------------- //
@@ -337,6 +307,22 @@ public class Gui implements Listener {
     // ------------------------------------- //
     // More helper methods.
 
+    private void updateFillerItem() {
+        for (int i = 0; i < items.length; i++) {
+            if ((items[i] != null && !items[i].getType().equals(Material.AIR)) && filler != null) {
+                items[i] = filler;
+            }
+        }
+    }
+
+    public Gui refresh(@NotNull Player player) {
+        if (player.getOpenInventory().getTitle().equals(CC.translate(name))) {
+            updateFillerItem();
+            player.getOpenInventory().getTopInventory().setContents(items);
+        }
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -353,7 +339,10 @@ public class Gui implements Listener {
     }
 
     public void openGui(Player player) {
-        inventory = Bukkit.createInventory(player, this.rows * 9, ChatColor.translateAlternateColorCodes('&', this.name));
+        if (type.equals(InventoryType.CHEST))
+            inventory = Bukkit.createInventory(player, this.rows * 9, ChatColor.translateAlternateColorCodes('&', this.name));
+        else
+            inventory = Bukkit.createInventory(player, type, ChatColor.translateAlternateColorCodes('&', this.name));
         updateFillerItem();
         inventory.setContents(items);
         player.openInventory(inventory);
