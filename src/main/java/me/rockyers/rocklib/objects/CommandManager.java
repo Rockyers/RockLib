@@ -108,13 +108,13 @@ public class CommandManager implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player){
             Player p = (Player) sender;
-            if (permission != null && !permission.isEmpty() && p.hasPermission(permission)) {
+            if (permission == null || permission.isEmpty() || p.hasPermission(permission)) {
                 if (args.length > 0) {
                     for (SubCommand subCommand : getSubCommands()) {
                         if (args[0].equalsIgnoreCase(subCommand.getName())) {
-                            if (subCommand.getPermission() != null && !subCommand.getPermission().isEmpty() && p.hasPermission(subCommand.getPermission())) {
+                            if (subCommand.getPermission() == null || subCommand.getPermission().isEmpty() || p.hasPermission(subCommand.getPermission())) {
                                 subCommand.perform(p, args);
-                            } else {
+                            } else if (subCommand.getPermission() != null && !subCommand.getPermission().isEmpty() && !p.hasPermission(subCommand.getPermission())){
                                 if (subCommand.getNoPermMessage() != null && !subCommand.getNoPermMessage().isEmpty()) PlayerUtil.send(p, subCommand.getNoPermMessage());
                             }
                         }
@@ -122,7 +122,7 @@ public class CommandManager implements TabExecutor {
                 } else {
                     whenNoArgs.run(p);
                 }
-            } else {
+            } else if (permission != null && !permission.isEmpty() && !p.hasPermission(permission)){
                 if (noPermMessage != null && !noPermMessage.isEmpty()) PlayerUtil.send(p, noPermMessage);
             }
         }
