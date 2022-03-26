@@ -19,7 +19,9 @@ But in the future this might become bigger!
 You can install RockLib with the .jar that you can find in the [releases](https://github.com/Rockyers/RockLib/releases) ([Latest](https://github.com/Rockyers/RockLib/releases/latest)).
 Or you can install RockLib with a build tool (Maven/Gradle)! 
 
-Make sure to replace "Version" with the version of RockLib you are using, you can find it as the tag for the release that you are using.
+If you want you can replace RELEASE with whatever version you want, the version can be found as the tag on the release
+
+And if you do not want to add extra size to your plugin you can download the release with the same version as your using and put it into your plugins folder, and change the scope to "provided"
 ### Maven
 ```maven
 <repositories>
@@ -32,7 +34,8 @@ Make sure to replace "Version" with the version of RockLib you are using, you ca
 <dependency>
     <groupId>com.github.Rockyers</groupId>
     <artifactId>RockLib</artifactId>
-    <version>Version</version>
+    <version>RELEASE</version>
+    <scope>compile</scope>
 </dependency>
 ```
 
@@ -46,7 +49,7 @@ allprojects {
 }
 
 dependencies {
-        implementation 'com.github.Rockyers:RockLib:Version'
+        implementation 'com.github.Rockyers:RockLib:RELEASE'
 }
 ```
 [![](https://jitpack.io/v/Rockyers/RockLib.svg)](https://jitpack.io/#Rockyers/RockLib)
