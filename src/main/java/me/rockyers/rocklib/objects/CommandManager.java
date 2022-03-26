@@ -134,7 +134,7 @@ public class CommandManager implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (permission != null && !permission.isEmpty() && player.hasPermission(permission)) {
+            if (permission == null || permission.isEmpty() || player.hasPermission(permission)) {
                 if (args.length == 1) {
                     ArrayList<String> subcommandsArguments = new ArrayList<>();
 

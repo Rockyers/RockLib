@@ -11,6 +11,13 @@
 
     <name>RockLib</name>
 
+    <developers>
+        <developer>
+            <id>Rockyers</id>
+            <url>https://github.com/Rockyers</url>
+        </developer>
+    </developers>
+
     <description>The Rock Library!</description>
     <properties>
         <java.version>1.8</java.version>
