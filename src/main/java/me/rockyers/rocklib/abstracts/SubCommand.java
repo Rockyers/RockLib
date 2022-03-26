@@ -1,4 +1,4 @@
-package me.rockyers.rocklib.objects;
+package me.rockyers.rocklib.abstracts;
 
 import org.bukkit.entity.Player;
 import java.util.List;

@@ -1,6 +1,7 @@
 package me.rockyers.rocklib.objects;
 
 import lombok.Getter;
+import me.rockyers.rocklib.abstracts.SubCommand;
 import me.rockyers.rocklib.utils.CC;
 import me.rockyers.rocklib.utils.PlayerUtil;
 import org.bukkit.command.Command;
@@ -107,14 +108,14 @@ public class CommandManager implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player){
             Player p = (Player) sender;
-            if (!permission.isEmpty() && p.hasPermission(permission)) {
+            if (permission != null && !permission.isEmpty() && p.hasPermission(permission)) {
                 if (args.length > 0) {
                     for (SubCommand subCommand : getSubCommands()) {
                         if (args[0].equalsIgnoreCase(subCommand.getName())) {
-                            if (!subCommand.getPermission().isEmpty() && p.hasPermission(subCommand.getPermission())) {
+                            if (subCommand.getPermission() != null && !subCommand.getPermission().isEmpty() && p.hasPermission(subCommand.getPermission())) {
                                 subCommand.perform(p, args);
                             } else {
-                                if (!subCommand.getNoPermMessage().isEmpty()) PlayerUtil.send(p, subCommand.getNoPermMessage());
+                                if (subCommand.getNoPermMessage() != null && !subCommand.getNoPermMessage().isEmpty()) PlayerUtil.send(p, subCommand.getNoPermMessage());
                             }
                         }
                     }
@@ -122,7 +123,7 @@ public class CommandManager implements TabExecutor {
                     whenNoArgs.run(p);
                 }
             } else {
-                if (!noPermMessage.isEmpty()) PlayerUtil.send(p, noPermMessage);
+                if (noPermMessage != null && !noPermMessage.isEmpty()) PlayerUtil.send(p, noPermMessage);
             }
         }
 
