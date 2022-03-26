@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.rockyers.rocklib.abstracts.SubCommand;
 import me.rockyers.rocklib.utils.CC;
 import me.rockyers.rocklib.utils.PlayerUtil;
+import net.md_5.bungee.api.chat.ClickEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -24,7 +25,7 @@ public class CommandManager implements TabExecutor {
     @Getter private RockRunnable whenNoArgs = thePlayer -> {
         thePlayer.sendMessage(CC.translate("&f------Help------"));
         for (SubCommand subCommand : getSubCommands()) {
-            HoverMessage hoverMessage = new HoverMessage(CC.translate("&b&l" + subCommand.getSyntax() + " &r&7- &f" + subCommand.getDescription()));
+            HoverMessage hoverMessage = new HoverMessage(CC.translate("&b&l" + subCommand.getSyntax() + " &r&7- &f" + subCommand.getDescription()), "&eClick to run", ClickEvent.Action.SUGGEST_COMMAND, subCommand.getSyntax());
             PlayerUtil.send(thePlayer, hoverMessage.toTextComponent());
         }
         thePlayer.sendMessage(CC.translate("&f----------------"));

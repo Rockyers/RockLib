@@ -108,6 +108,7 @@ public class Item implements Listener {
     }
 
     public Item setFunction(Action action, Runnable runnable) {
+        if (itemFunctions == null) itemFunctions = new HashMap<>();
         itemFunctions.put(action, runnable);
         return this;
     }
