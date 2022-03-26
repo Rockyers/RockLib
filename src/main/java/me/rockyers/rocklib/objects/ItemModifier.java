@@ -1,6 +1,9 @@
 package me.rockyers.rocklib.objects;
 
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
 
 public class ItemModifier {
     ItemStack item;
@@ -11,28 +14,14 @@ public class ItemModifier {
         this.item = item;
     }
 
-    public ItemModifier setClickFunctions(ItemStack itemStack, Runnable leftClickFnc, Runnable rightClickFnc, Runnable middleClickFnc) {
-        gui.getClickFunctions().replace(itemStack, new Runnable[]{leftClickFnc, rightClickFnc, middleClickFnc});
+    public ItemModifier setClickFunction(ItemStack itemStack, HashMap<ClickType, RockRunnable> clickTypeMap) {
+        gui.getClickFunctions().replace(itemStack, clickTypeMap);
         return this;
     }
 
-    public ItemModifier setClickFunctions(ItemStack itemStack, Runnable leftClickFnc, Runnable rightClickFnc) {
-        gui.getClickFunctions().replace(itemStack, new Runnable[]{leftClickFnc, rightClickFnc, null});
-        return this;
-    }
-
-    public ItemModifier setLeftClickFunction(ItemStack itemStack, Runnable leftClickFnc) {
-        gui.getClickFunctions().replace(itemStack, new Runnable[]{leftClickFnc, null, null});
-        return this;
-    }
-
-    public ItemModifier setRightClickFunction(ItemStack itemStack, Runnable rightClickFnc) {
-        gui.getClickFunctions().replace(itemStack, new Runnable[]{null, rightClickFnc, null});
-        return this;
-    }
-
-    public ItemModifier setMiddleClickFunction(ItemStack itemStack, Runnable middleClickFnc) {
-        gui.getClickFunctions().replace(itemStack, new Runnable[]{null, null, middleClickFnc});
+    @SafeVarargs
+    public final ItemModifier setClickFunctions(ItemStack itemStack, HashMap<ClickType, RockRunnable>... clickTypeMaps) {
+        for (HashMap<ClickType, RockRunnable> clickTypeMap : clickTypeMaps) gui.getClickFunctions().replace(itemStack, clickTypeMap);
         return this;
     }
 

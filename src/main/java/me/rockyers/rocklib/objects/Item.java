@@ -107,9 +107,15 @@ public class Item implements Listener {
         return this;
     }
 
-    public Item setFunction(Action action, Runnable runnable) {
+    public Item setFunction(Runnable runnable, Action action) {
         if (itemFunctions == null) itemFunctions = new HashMap<>();
         itemFunctions.put(action, runnable);
+        return this;
+    }
+
+    public Item setFunction(Runnable runnable, Action... actions) {
+        if (itemFunctions == null) itemFunctions = new HashMap<>();
+        for (Action action : actions) itemFunctions.put(action, runnable);
         return this;
     }
 
@@ -151,15 +157,17 @@ public class Item implements Listener {
     }
 
     @EventHandler
-    public void onClick(@NotNull PlayerInteractEvent ev) {
+    public void onClick(PlayerInteractEvent ev) {
         Action action = ev.getAction();
         Player player = ev.getPlayer();
         if (itemFunctions.containsKey(action)) {
-            if (permission.isEmpty() || player.hasPermission(permission)) {
+            if (permission == null || permission.isEmpty() || player.hasPermission(permission)) {
                 itemFunctions.get(action).run();
             } else {
-                if (!noPermErrorMsg.isEmpty()) player.sendMessage(CC.translate(noPermErrorMsg));
-                if (soundOnNoPerm) player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 100, 1);
+                if (permission != null && !permission.isEmpty() && !player.hasPermission(permission)) {
+                    if (noPermErrorMsg != null && !noPermErrorMsg.isEmpty()) player.sendMessage(CC.translate(noPermErrorMsg));
+                    if (soundOnNoPerm) player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 100, 1);
+                }
             }
         }
     }

@@ -4,4 +4,8 @@ main: me.rockyers.rocklib.RockLib
 api-version: 1.16
 load: STARTUP
 authors: [ Rockyers ]
-description: The Rock Library! 
+description: The Rock Library!
+
+commands:
+  test:
+    description: This is test

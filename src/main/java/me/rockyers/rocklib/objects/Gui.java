@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class Gui implements Listener {
     @Getter private String name;
     @Getter private int rows = 3;
     @Getter private ItemStack[] items;
-    private HashMap<ItemStack, Runnable[]> clickFunctions = new HashMap<>();
+    private HashMap<ItemStack, HashMap<ClickType, RockRunnable>> clickFunctions = new HashMap<>();
     private HashMap<ItemStack, String> itemPermissions = new HashMap<>();
     @Getter private ItemStack filler = null;
 
@@ -71,7 +72,7 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions, @NotNull JavaPlugin plugin) {
+    public Gui(String guiName, int rows, ItemStack[] items, HashMap<ItemStack, HashMap<ClickType, RockRunnable>> clickFunctions, HashMap<ItemStack, String> itemPermissions, @NotNull JavaPlugin plugin) {
         this.items = items;
         this.clickFunctions = clickFunctions;
         this.itemPermissions = itemPermissions;
@@ -81,7 +82,7 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, InventoryType type, ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions, @NotNull JavaPlugin plugin) {
+    public Gui(String guiName, InventoryType type, ItemStack[] items, HashMap<ItemStack, HashMap<ClickType, RockRunnable>> clickFunctions, HashMap<ItemStack, String> itemPermissions, @NotNull JavaPlugin plugin) {
         this.items = items;
         this.clickFunctions = clickFunctions;
         this.itemPermissions = itemPermissions;
@@ -122,8 +123,8 @@ public class Gui implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Gui(String guiName, InventoryType type, @NotNull JavaPlugin plugin) {
-        items = new ItemStack[rows * 9];
+    public Gui(String guiName, @NotNull InventoryType type, @NotNull JavaPlugin plugin) {
+        items = new ItemStack[type.getDefaultSize()];
         this.type = type;
         this.name = guiName;
         this.plugin = plugin;
@@ -140,46 +141,28 @@ public class Gui implements Listener {
     /**
      * Helper Methods
      */
-    public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc, Runnable rightClickFnc, Runnable middleClickFnc, String permission) {
+    public Gui setItem(ItemStack item, int slot, String permission, HashMap<ClickType, RockRunnable> clickTypeMap) {
         items[slot] = item;
-        clickFunctions.put(item, new Runnable[]{leftClickFnc, rightClickFnc, middleClickFnc});
+        clickFunctions.put(item, clickTypeMap);
         itemPermissions.put(item, permission);
         return this;
     }
-    public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc, Runnable rightClickFnc, Runnable middleClickFnc) {
+    public Gui setItem(ItemStack item, int slot, HashMap<ClickType, RockRunnable> clickTypeMap) {
         items[slot] = item;
-        clickFunctions.put(item, new Runnable[]{leftClickFnc, rightClickFnc, middleClickFnc});
+        clickFunctions.put(item, clickTypeMap);
         return this;
     }
-    public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc, Runnable rightClickFnc, String permission) {
+    @SafeVarargs
+    public final Gui setItem(ItemStack item, int slot, String permission, HashMap<ClickType, RockRunnable> @NotNull ... clickTypeMaps) {
         items[slot] = item;
-        clickFunctions.put(item, new Runnable[]{leftClickFnc, rightClickFnc, null});
+        for (HashMap<ClickType, RockRunnable> clickTypeMap : clickTypeMaps) clickFunctions.put(item, clickTypeMap);
         itemPermissions.put(item, permission);
         return this;
     }
-    public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc, Runnable rightClickFnc) {
+    @SafeVarargs
+    public final Gui setItem(ItemStack item, int slot, HashMap<ClickType, RockRunnable> @NotNull ... clickTypeMaps) {
         items[slot] = item;
-        clickFunctions.put(item, new Runnable[]{leftClickFnc, rightClickFnc, null});
-        return this;
-    }
-    public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc, String permission) {
-        items[slot] = item;
-        clickFunctions.put(item, new Runnable[]{leftClickFnc, null, null});
-        itemPermissions.put(item, permission);
-        return this;
-    }
-    public Gui setItem(ItemStack item, int slot, Runnable leftClickFnc) {
-        items[slot] = item;
-        clickFunctions.put(item, new Runnable[]{leftClickFnc, null, null});
-        return this;
-    }
-    public Gui setItem(ItemStack item, int slot, String permission) {
-        items[slot] = item;
-        itemPermissions.put(item, permission);
-        return this;
-    }
-    public Gui setItem(ItemStack item, int slot) {
-        items[slot] = item;
+        for (HashMap<ClickType, RockRunnable> clickTypeMap : clickTypeMaps) clickFunctions.put(item, clickTypeMap);
         return this;
     }
 
@@ -187,13 +170,13 @@ public class Gui implements Listener {
         return new ItemModifier(item, this);
     }
 
-    public Gui setItems(ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions, HashMap<ItemStack, String> itemPermissions) {
+    public Gui setItems(ItemStack[] items, HashMap<ItemStack, HashMap<ClickType, RockRunnable>> clickFunctions, HashMap<ItemStack, String> itemPermissions) {
         this.items = items;
         this.itemPermissions = itemPermissions;
         this.clickFunctions = clickFunctions;
         return this;
     }
-    public Gui setItems(ItemStack[] items, HashMap<ItemStack, Runnable[]> clickFunctions) {
+    public Gui setItems(ItemStack[] items, HashMap<ItemStack, HashMap<ClickType, RockRunnable>> clickFunctions) {
         this.items = items;
         this.clickFunctions = clickFunctions;
         return this;
@@ -285,12 +268,12 @@ public class Gui implements Listener {
     }
 
     // @Deprecated
-    public HashMap<ItemStack, Runnable[]> getClickFunctions() {
+    public HashMap<ItemStack, HashMap<ClickType, RockRunnable>> getClickFunctions() {
         return clickFunctions;
     }
 
     // @Deprecated
-    public void setClickFunctions(HashMap<ItemStack, Runnable[]> clickFunctions) {
+    public void setClickFunctions(HashMap<ItemStack, HashMap<ClickType, RockRunnable>> clickFunctions) {
         this.clickFunctions = clickFunctions;
     }
 
@@ -310,7 +293,7 @@ public class Gui implements Listener {
 
     private void updateFillerItem() {
         for (int i = 0; i < items.length; i++) {
-            if ((items[i] != null && !items[i].getType().equals(Material.AIR)) && filler != null) {
+            if ((items[i] == null || items[i].getType().equals(Material.AIR)) && filler != null) {
                 items[i] = filler;
             }
         }
@@ -376,25 +359,10 @@ public class Gui implements Listener {
 
         if (inventoryClicked == null || !inventoryClicked.equals(this.toInventory())) return;
         ev.setCancelled(!isIntractable);
+        if (itemClicked == null) return;
         if ((!itemPermissions.containsKey(itemClicked) || whoClicked.hasPermission(itemPermissions.get(itemClicked))) && clickFunctions.containsKey(itemClicked)) {
-            int index;
-            switch (clickType) {
-                case CREATIVE:
-                case LEFT:
-                    index = 0;
-                    break;
-                case SHIFT_RIGHT:
-                case RIGHT:
-                    index = 1;
-                    break;
-                case MIDDLE:
-                    index = 2;
-                    break;
-                default:
-                    index = 0;
-                    break;
-            }
-            clickFunctions.get(itemClicked)[index].run();
+            if (!clickFunctions.get(itemClicked).containsKey(clickType)) return;
+            clickFunctions.get(itemClicked).get(clickType).run(whoClicked);
         } else {
             ev.setCancelled(!takeItemOnNoPerm);
             if (closeInventoryOnNoPerm) whoClicked.closeInventory();
