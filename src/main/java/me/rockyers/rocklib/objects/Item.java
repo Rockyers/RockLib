@@ -27,10 +27,10 @@ public class Item implements Listener {
     @Getter private String name;
     @Getter private ArrayList<String> lore = new ArrayList<>();
     @Getter private Player skullSkinOwner;
-    @Getter private Map<Enchantment, Integer> enchantments;
+    @Getter private Map<Enchantment, Integer> enchantments = new HashMap<>();
     @Getter private boolean unbreakable = false;
 
-    @Getter HashMap<Action, Runnable> itemFunctions;
+    @Getter HashMap<Action, Runnable> itemFunctions = new HashMap<>();
     @Getter private String permission, noPermErrorMsg;
     @Getter private boolean soundOnNoPerm = true;
 
