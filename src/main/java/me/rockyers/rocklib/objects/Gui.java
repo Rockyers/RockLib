@@ -152,19 +152,6 @@ public class Gui implements Listener {
         clickFunctions.put(item, clickTypeMap);
         return this;
     }
-    @SafeVarargs
-    public final Gui setItem(ItemStack item, int slot, String permission, HashMap<ClickType, RockRunnable> @NotNull ... clickTypeMaps) {
-        items[slot] = item;
-        for (HashMap<ClickType, RockRunnable> clickTypeMap : clickTypeMaps) clickFunctions.put(item, clickTypeMap);
-        itemPermissions.put(item, permission);
-        return this;
-    }
-    @SafeVarargs
-    public final Gui setItem(ItemStack item, int slot, HashMap<ClickType, RockRunnable> @NotNull ... clickTypeMaps) {
-        items[slot] = item;
-        for (HashMap<ClickType, RockRunnable> clickTypeMap : clickTypeMaps) clickFunctions.put(item, clickTypeMap);
-        return this;
-    }
 
     public ItemModifier modifyItem(ItemStack item) {
         return new ItemModifier(item, this);
@@ -359,7 +346,7 @@ public class Gui implements Listener {
 
         if (inventoryClicked == null || !inventoryClicked.equals(this.toInventory())) return;
         ev.setCancelled(!isIntractable);
-        if (itemClicked == null) return;
+        if (itemClicked == null || itemClicked.equals(filler)) return;
         if ((!itemPermissions.containsKey(itemClicked) || whoClicked.hasPermission(itemPermissions.get(itemClicked))) && clickFunctions.containsKey(itemClicked)) {
             if (!clickFunctions.get(itemClicked).containsKey(clickType)) return;
             clickFunctions.get(itemClicked).get(clickType).run(whoClicked);

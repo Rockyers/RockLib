@@ -19,12 +19,6 @@ public class ItemModifier {
         return this;
     }
 
-    @SafeVarargs
-    public final ItemModifier setClickFunctions(ItemStack itemStack, HashMap<ClickType, RockRunnable>... clickTypeMaps) {
-        for (HashMap<ClickType, RockRunnable> clickTypeMap : clickTypeMaps) gui.getClickFunctions().replace(itemStack, clickTypeMap);
-        return this;
-    }
-
     public ItemModifier setPermission(ItemStack itemStack, String permission) {
         gui.getItemPermissions().replace(itemStack, permission);
         return this;
