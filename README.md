@@ -24,22 +24,17 @@ If you want you can replace RELEASE with whatever version you want, the version 
 And if you do not want to add extra size to your plugin you can download the release with the same version as your using and put it into your plugins folder, and change the scope to "provided"
 ### Maven
 ```maven
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-
 <dependency>
-    <groupId>com.github.Rockyers</groupId>
-    <artifactId>RockLib</artifactId>
-    <version>RELEASE</version>
+    <groupId>me.rockyers</groupId>
+    <artifactId>rocklib</artifactId>
+    <version>1.5.7</version>
     <scope>compile</scope>
 </dependency>
 ```
 
 ### Gradle
+
+I do not personally use gradel so for now I use JitPack for this. But if someone would like to help with that contact me on discord! `Rockyers#1000`
 ```gradel
 allprojects {
     repositories {
