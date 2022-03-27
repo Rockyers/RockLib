@@ -48,3 +48,7 @@ dependencies {
 }
 ```
 [![](https://jitpack.io/v/Rockyers/RockLib.svg)](https://jitpack.io/#Rockyers/RockLib)
+***
+
+# License
+RockLib is licensed under [Creative Commons Zero v1.0 Universal](https://github.com/Rockyers/RockLib/blob/master/LICENSE.md)
