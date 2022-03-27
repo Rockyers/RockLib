@@ -8,8 +8,7 @@ If you find a bug you can make an issue report! I am currently working on the do
 (Check the wiki or the badge below to get install instructions)
 
 ## Contributing
-Pull requests are welcome (Make a fork with your changes then open a pull request)! If it's a bug please open an [issue](https://github.com/Rockyers/RockLib/issues/new). If it's something big you can dm/add me on discord: `Rockyers#1000` (until I make a discord server), and finally if you want 
-to make a bigger dedication you can join the dev team, to join the dev team dm/add me on discord.
+Pull requests are welcome (Make a fork with your changes then open a pull request)! If it's a bug or suggestion please open an [issue](https://github.com/Rockyers/RockLib/issues/new). If it's something big you can dm/add me on discord: `Rockyers#1000` (until I make a discord server), and finally if you want to make a bigger dedication you can join the dev team be dming or adding me on discord.
 ### Note:
 > This is not the best Library out there honestly,
 this is just a project I'm working on for experience and the fun of it!
