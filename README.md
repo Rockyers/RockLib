@@ -1,11 +1,24 @@
 # RockLib
 
 ## What is this?
-Welcome the RockLib! This is a general use library for Minecraft plugin development!
+Welcome the RockLib! This is a general use library for Minecraft plugin development!  
+If you find a bug you can make an issue report! I am currently working on the documentation in the wiki section  
+(Check the wiki or the badge below to get install instructions)  
 
-If you find a bug you can make an issue report! I am currently working on the documentation in the wiki section
+## Features
+**Objects:**  
+* GUIs - Custom object for both creating GUIs and handling the click events of that GUI
+* Items - Custom object for both creating Items and handling the interact events of that Item
+* HoverMessages - An object for creating HoverMessages (better known as TextComponenets) easier!
+* CommandManager - An easy to use command manager to setup commands with subcommands really easily!  
 
-(Check the wiki or the badge below to get install instructions)
+**Utilities:**
+* CC - A formating tool mainly used for the alternat format code
+* PlayerUtil - A utility that I am adding lots to! Right now used to send messages easier
+* RockRunnable - It's a runnable, but with a Player argument! Used in the functionality for GUIs, Items, and Commands
+
+**Extra:**
+* ItemConstructer - A simple but powerful tool for making simple items! Used mostly in the creation of items for GUIs
 
 ## Contributing
 Pull requests are welcome (Make a fork with your changes then open a pull request)! If it's a bug or suggestion please open an [issue](https://github.com/Rockyers/RockLib/issues/new). If it's something big you can dm/add me on discord: `Rockyers#1000` (until I make a discord server), and finally if you want to make a bigger dedication you can join the dev team be dming or adding me on discord.
