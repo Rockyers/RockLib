@@ -9,6 +9,14 @@
     <version>1.5.7</version>
     <packaging>jar</packaging>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Rockyers Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Rockyers/RockLib</url>
+        </repository>
+    </distributionManagement>
+
     <name>RockLib</name>
 
     <developers>
