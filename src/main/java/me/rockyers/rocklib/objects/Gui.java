@@ -17,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
@@ -35,6 +34,7 @@ public class Gui implements Listener {
     private HashMap<ItemStack, HashMap<ClickType, RockRunnable>> clickFunctions = new HashMap<>();
     private HashMap<ItemStack, String> itemPermissions = new HashMap<>();
     @Getter private ItemStack filler = null;
+    @Getter private ItemStack outLineItem = null;
 
     @Getter private boolean takeItemOnNoPerm, isIntractable, useCustomListener = false;
     @Getter private boolean closeInventoryOnNoPerm, soundOnNoPerm = true;
@@ -218,6 +218,11 @@ public class Gui implements Listener {
         return this;
     }
 
+    public Gui setOutline(ItemStack outline) {
+        this.outLineItem = outline;
+        return this;
+    }
+
     public Gui setType(InventoryType type) {
         this.type = type;
         return this;
@@ -280,8 +285,22 @@ public class Gui implements Listener {
 
     private void updateFillerItem() {
         for (int i = 0; i < items.length; i++) {
-            if ((items[i] == null || items[i].getType().equals(Material.AIR)) && filler != null) {
-                items[i] = filler;
+            if ((items[i] == null || items[i].getType().equals(Material.AIR)) && filler != null) items[i] = filler;
+        }
+    }
+
+    private void updateOutLine() {
+        if (outLineItem == null) return;
+        int offset = (rows-1)*9;
+        for (int i = 0; i < 9; i++) {
+            if (items[i] == null || items[i].getType().equals(Material.AIR)) items[i] = outLineItem;
+            if ((items[i+offset] == null || items[i+offset].getType().equals(Material.AIR)) && rows > 1) items[i+offset] = outLineItem;
+        }
+        if (rows > 2) {
+            for (int i = 0; i < rows-2; i++) {
+                int sOffset = (1+i)*9;
+                if (items[sOffset + 1] == null || items[sOffset + 1].getType().equals(Material.AIR)) items[sOffset] = outLineItem;
+                if (items[sOffset + 8] == null || items[sOffset + 8].getType().equals(Material.AIR)) items[sOffset + 8] = outLineItem;
             }
         }
     }
@@ -315,6 +334,7 @@ public class Gui implements Listener {
         else
             inventory = Bukkit.createInventory(player, type, ChatColor.translateAlternateColorCodes('&', this.name));
         updateFillerItem();
+        updateOutLine();
         inventory.setContents(items);
         player.openInventory(inventory);
     }
@@ -346,7 +366,7 @@ public class Gui implements Listener {
 
         if (inventoryClicked == null || !inventoryClicked.equals(this.toInventory())) return;
         ev.setCancelled(!isIntractable);
-        if (itemClicked == null || itemClicked.equals(filler)) return;
+        if (itemClicked == null || itemClicked.equals(filler) || itemClicked.equals(outLineItem)) return;
         if ((!itemPermissions.containsKey(itemClicked) || whoClicked.hasPermission(itemPermissions.get(itemClicked))) && clickFunctions.containsKey(itemClicked)) {
             if (!clickFunctions.get(itemClicked).containsKey(clickType)) return;
             clickFunctions.get(itemClicked).get(clickType).run(whoClicked);

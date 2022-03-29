@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.rockyers</groupId>
-    <artifactId>RockLib</artifactId>
-    <version>1.5.7</version>
+    <artifactId>rocklib</artifactId>
+    <version>1.5.8</version>
     <packaging>jar</packaging>
 
     <distributionManagement>
@@ -89,13 +89,13 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
+            <version>1.18.22</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>23.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
