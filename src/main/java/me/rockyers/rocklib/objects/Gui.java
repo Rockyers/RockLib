@@ -152,6 +152,10 @@ public class Gui implements Listener {
         clickFunctions.put(item, clickTypeMap);
         return this;
     }
+    public Gui setItem(ItemStack item, int slot) {
+        items[slot] = item;
+        return this;
+    }
 
     public ItemModifier modifyItem(ItemStack item) {
         return new ItemModifier(item, this);
