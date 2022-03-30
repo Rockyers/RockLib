@@ -14,20 +14,20 @@ public class ItemModifier {
         this.item = item;
     }
 
-    public ItemModifier setClickFunction(ItemStack itemStack, HashMap<ClickType, RockRunnable> clickTypeMap) {
-        gui.getClickFunctions().replace(itemStack, clickTypeMap);
+    public ItemModifier setClickFunction(HashMap<ClickType, RockRunnable> clickTypeMap) {
+        gui.getClickFunctions().replace(item, clickTypeMap);
         return this;
     }
 
-    public ItemModifier setClickFunction(ItemStack itemStack, RockRunnable action, ClickType... clickTypes) {
+    public ItemModifier setClickFunction(RockRunnable action, ClickType... clickTypes) {
         HashMap<ClickType, RockRunnable> clickTypeMap = new HashMap<>();
         for (ClickType clickType : clickTypes) clickTypeMap.put(clickType, action);
-        gui.getClickFunctions().replace(itemStack, clickTypeMap);
+        gui.getClickFunctions().replace(item, clickTypeMap);
         return this;
     }
 
-    public ItemModifier setPermission(ItemStack itemStack, String permission) {
-        gui.getItemPermissions().replace(itemStack, permission);
+    public ItemModifier setPermission(String permission) {
+        gui.getItemPermissions().replace(item, permission);
         return this;
     }
 
