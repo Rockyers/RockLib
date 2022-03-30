@@ -40,7 +40,7 @@ And if you do not want to add extra size to your plugin you can download the rel
 <dependency>
     <groupId>me.rockyers</groupId>
     <artifactId>rocklib</artifactId>
-    <version>1.5.7</version>
+    <version>RELEASE</version>
     <scope>compile</scope>
 </dependency>
 ```
