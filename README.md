@@ -4,7 +4,6 @@
 ## What is this?
 Welcome the RockLib! This is a general use library for Minecraft plugin development!  
 If you find a bug you can make an issue report! I am currently working on the documentation in the wiki section  
-(Check the wiki or the badge below to get install instructions)  
 
 ## Features
 **Objects:**  
