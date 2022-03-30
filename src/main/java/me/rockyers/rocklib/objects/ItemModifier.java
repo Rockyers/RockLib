@@ -19,6 +19,13 @@ public class ItemModifier {
         return this;
     }
 
+    public ItemModifier setClickFunction(ItemStack itemStack, RockRunnable action, ClickType... clickTypes) {
+        HashMap<ClickType, RockRunnable> clickTypeMap = new HashMap<>();
+        for (ClickType clickType : clickTypes) clickTypeMap.put(clickType, action);
+        gui.getClickFunctions().replace(itemStack, clickTypeMap);
+        return this;
+    }
+
     public ItemModifier setPermission(ItemStack itemStack, String permission) {
         gui.getItemPermissions().replace(itemStack, permission);
         return this;

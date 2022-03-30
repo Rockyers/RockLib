@@ -141,6 +141,14 @@ public class Gui implements Listener {
     /**
      * Helper Methods
      */
+    public Gui setItem(ItemStack item, int slot, String permission, RockRunnable action, ClickType @NotNull ... clickTypes) {
+        items[slot] = item;
+        HashMap<ClickType, RockRunnable> clickTypeMap = new HashMap<>();
+        for (ClickType clickType : clickTypes) clickTypeMap.put(clickType, action);
+        clickFunctions.put(item, clickTypeMap);
+        itemPermissions.put(item, permission);
+        return this;
+    }
     public Gui setItem(ItemStack item, int slot, String permission, HashMap<ClickType, RockRunnable> clickTypeMap) {
         items[slot] = item;
         clickFunctions.put(item, clickTypeMap);

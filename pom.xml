@@ -6,7 +6,7 @@
 
     <groupId>me.rockyers</groupId>
     <artifactId>rocklib</artifactId>
-    <version>1.5.8</version>
+    <version>1.6.0</version>
     <packaging>jar</packaging>
 
     <distributionManagement>
