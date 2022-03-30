@@ -7,9 +7,9 @@ If you find a bug you can make an issue report! I am currently working on the do
 
 ## Features
 **Objects:**  
-* [GUIs](https://github.com/Rockyers/RockLib/wiki/Basic-GUIs) - Custom object for both creating GUIs and handling the click events of that GUI
-* Items - Custom object for both creating Items and handling the interact events of that Item
-* HoverMessages - An object for creating HoverMessages (better known as TextComponenets)
+* [Gui](https://github.com/Rockyers/RockLib/wiki/Basic-GUIs) - Custom object for both creating GUIs and handling the click events of that GUI
+* Item - Custom object for both creating Items and handling the interact events of that Item
+* HoverMessage - An object for creating HoverMessages (better known as TextComponenets)
 * CommandManager - An easy to use command manager to setup commands with subcommands really easily!  
 
 **Utilities:**
