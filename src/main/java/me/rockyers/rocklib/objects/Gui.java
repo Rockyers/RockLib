@@ -149,6 +149,13 @@ public class Gui implements Listener {
         itemPermissions.put(item, permission);
         return this;
     }
+    public Gui setItem(ItemStack item, int slot, RockRunnable action, ClickType @NotNull ... clickTypes) {
+        items[slot] = item;
+        HashMap<ClickType, RockRunnable> clickTypeMap = new HashMap<>();
+        for (ClickType clickType : clickTypes) clickTypeMap.put(clickType, action);
+        clickFunctions.put(item, clickTypeMap);
+        return this;
+    }
     public Gui setItem(ItemStack item, int slot, String permission, HashMap<ClickType, RockRunnable> clickTypeMap) {
         items[slot] = item;
         clickFunctions.put(item, clickTypeMap);
@@ -345,8 +352,10 @@ public class Gui implements Listener {
             inventory = Bukkit.createInventory(player, this.rows * 9, ChatColor.translateAlternateColorCodes('&', this.name));
         else
             inventory = Bukkit.createInventory(player, type, ChatColor.translateAlternateColorCodes('&', this.name));
-        updateFillerItem();
-        updateOutLine();
+        if (type.equals(InventoryType.CHEST)) {
+            updateFillerItem();
+            updateOutLine();
+        }
         inventory.setContents(items);
         player.openInventory(inventory);
     }

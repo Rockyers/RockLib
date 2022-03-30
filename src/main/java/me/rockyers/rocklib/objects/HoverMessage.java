@@ -6,6 +6,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import java.util.Collection;
+import java.util.List;
+
 public class HoverMessage {
     TextComponent mainComponent;
     String msg;
