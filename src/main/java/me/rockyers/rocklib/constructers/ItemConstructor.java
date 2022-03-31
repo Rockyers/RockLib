@@ -15,9 +15,23 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ItemConstructer {
+/**
+ * ItemConstructor is an Object used for simple ItemStack creation.
+ * Intended to be used by Method Chaining.
+ *
+ * @author Rockyers
+ * @since 1.6.1
+ * @see ItemStack
+ */
+public class ItemConstructor {
+    /**
+     * The final usable ItemStack
+     */
     private ItemStack finalItem;
 
+    /**
+     * Variables for the ItemConstructor. Names should be self-explanatory.
+     */
     private final Material material;
     private String name;
     private ArrayList<String> lore = new ArrayList<>();
@@ -25,11 +39,19 @@ public class ItemConstructer {
     private Map<Enchantment, Integer> enchantments;
     private boolean unbreakable = false;
 
-    public ItemConstructer(Material material) {
+    /**
+     * Constructor for the ItemConstructor.
+     * @param material The material for the Item being created
+     */
+    public ItemConstructor(Material material) {
         this.material = material;
     }
 
-    public ItemConstructer(@NotNull ItemStack itemStack) {
+    /**
+     * Constructor for the ItemConstructor, for copying from ItemStacks
+     * @param itemStack The ItemStack that you want to copy
+     */
+    public ItemConstructor(@NotNull ItemStack itemStack) {
         this.finalItem = itemStack;
         this.material = itemStack.getType();
         this.name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
@@ -42,47 +64,84 @@ public class ItemConstructer {
         }
     }
 
-    public ItemConstructer setName(String name) {
+    /**
+     * Method to set the ItemStacks name
+     * @param name The name for the ItemStack
+     */
+    public ItemConstructor setName(String name) {
         this.name = name;
         return this;
     }
 
-    public ItemConstructer setLore(String lore) {
+    /**
+     * Method to set the lore of the ItemStack to a single string
+     * @param lore The Lore (String) for the ItemStack
+     */
+    public ItemConstructor setLore(String lore) {
         this.lore.clear();
         this.lore.add(lore);
         return this;
     }
 
-    public ItemConstructer setLore(ArrayList<String> lore) {
+    /**
+     * Method to set the lore of the ItemStack to an ArrayList
+     * @param lore The Lore (ArrayList) for the ItemStack
+     */
+    public ItemConstructor setLore(ArrayList<String> lore) {
         this.lore = lore;
         return this;
     }
 
-    public ItemConstructer addLore(String lore) {
+    /**
+     * Method to add one line of lore to the ItemStack
+     * @param lore The lore you want to add
+     */
+    public ItemConstructor addLore(String lore) {
         this.lore.add(lore);
         return this;
     }
 
-    public ItemConstructer setHeadSkin(UUID uuid) {
+    /**
+     * Method to set the PlayerHeadSkin of the ItemStack (Only if this.material is Material.PLAYER_HEAD)
+     * @param uuid The UUID of the player you want to head skin to be
+     */
+    public ItemConstructor setHeadSkin(UUID uuid) {
         skullSkinOwner = Bukkit.getPlayer(uuid);
         return this;
     }
 
-    public ItemConstructer addEnchantment(Enchantment enchantment, Integer powerLevel) {
+    /**
+     * Method to add an enchantment to the ItemStack
+     * @param enchantment The enchantment you want to add
+     * @param powerLevel The power level of the enchantment
+     */
+    public ItemConstructor addEnchantment(Enchantment enchantment, Integer powerLevel) {
         enchantments.put(enchantment, powerLevel);
         return this;
     }
 
-    public ItemConstructer removeEnchantment(Enchantment enchantment) {
+    /**
+     * Method to remove an enchantment from the ItemStack
+     * @param enchantment The enchantment you want to remove
+     */
+    public ItemConstructor removeEnchantment(Enchantment enchantment) {
         enchantments.remove(enchantment);
         return this;
     }
 
-    public ItemConstructer setUnbreakable(boolean isUnbreakable) {
+    /**
+     * Method to set if the ItemStack is unbreakable
+     * @param isUnbreakable If the ItemStack is unbreakable or not
+     */
+    public ItemConstructor setUnbreakable(boolean isUnbreakable) {
         unbreakable = isUnbreakable;
         return this;
     }
 
+    /**
+     * The method to create the final ItemStack
+     * @return The final usable ItemStack
+     */
     public ItemStack create() {
         finalItem = new ItemStack(material);
         ItemMeta meta = finalItem.getItemMeta();
