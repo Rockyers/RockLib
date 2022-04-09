@@ -38,11 +38,15 @@ If you want you can replace RELEASE with whatever version you want, the version 
 And if you do not want to add extra size to your plugin you can download the release with the same version as your using and put it into your plugins folder, and change the scope to "provided"
 ### Maven
 ```maven
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
 <dependency>
-    <groupId>me.rockyers</groupId>
-    <artifactId>rocklib</artifactId>
-    <version>RELEASE</version>
-    <scope>compile</scope>
+    <groupId>com.github.Rockyers</groupId>
+    <artifactId>RockLib</artifactId>
+    <version>1.6.2</version>
 </dependency>
 ```
 
