@@ -46,13 +46,12 @@ And if you do not want to add extra size to your plugin you can download the rel
 <dependency>
     <groupId>com.github.Rockyers</groupId>
     <artifactId>RockLib</artifactId>
-    <version>1.6.2</version>
+    <version>RELEASE</version>
 </dependency>
 ```
 
 ### Gradle
 
-I do not personally use gradel so for now I use JitPack for this. But if someone would like to help with that contact me on discord! `Rockyers#1000`
 ```gradel
 allprojects {
     repositories {
