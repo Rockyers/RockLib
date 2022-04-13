@@ -46,7 +46,7 @@ public class Gui implements Listener {
     /**
      * Constructors
      */
-    public Gui(Gui gui, JavaPlugin plugin) {
+    public Gui(@NotNull Gui gui, @NotNull JavaPlugin plugin) {
         this.filler = gui.getFiller();
         this.clickFunctions = gui.getClickFunctions();
         this.closeInventoryOnNoPerm = gui.isCloseInventoryOnNoPerm();
@@ -386,7 +386,6 @@ public class Gui implements Listener {
         ClickType clickType = ev.getClick();
 
         if (inventoryClicked == null || !inventoryClicked.equals(this.toInventory())) return;
-        ev.setCancelled(!isIntractable);
         if (itemClicked == null || itemClicked.equals(filler) || itemClicked.equals(outLineItem)) return;
         if ((!itemPermissions.containsKey(itemClicked) || whoClicked.hasPermission(itemPermissions.get(itemClicked))) && clickFunctions.containsKey(itemClicked)) {
             if (!clickFunctions.get(itemClicked).containsKey(clickType)) return;
@@ -397,5 +396,6 @@ public class Gui implements Listener {
             if (soundOnNoPerm) whoClicked.playSound(whoClicked.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 100, 1);
             if (!noPermError.isEmpty()) whoClicked.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermError));
         }
+        ev.setCancelled(!isIntractable);
     }
 }

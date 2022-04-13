@@ -24,6 +24,7 @@ public final class RockLib extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        
         Bukkit.getConsoleSender().sendMessage(CC.translate("&b&lRockLib has been enabled!"));
     }
 
