@@ -385,6 +385,8 @@ public class Gui implements Listener {
         Inventory inventoryClicked = ev.getClickedInventory();
         ClickType clickType = ev.getClick();
 
+        ev.setCancelled(!isIntractable);
+
         if (inventoryClicked == null || !inventoryClicked.equals(this.toInventory())) return;
         if (itemClicked == null || itemClicked.equals(filler) || itemClicked.equals(outLineItem)) return;
         if ((!itemPermissions.containsKey(itemClicked) || whoClicked.hasPermission(itemPermissions.get(itemClicked))) && clickFunctions.containsKey(itemClicked)) {
@@ -396,6 +398,5 @@ public class Gui implements Listener {
             if (soundOnNoPerm) whoClicked.playSound(whoClicked.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 100, 1);
             if (!noPermError.isEmpty()) whoClicked.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermError));
         }
-        ev.setCancelled(!isIntractable);
     }
 }

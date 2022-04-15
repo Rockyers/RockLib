@@ -5,6 +5,7 @@ import me.rockyers.rocklib.abstracts.SubCommand;
 import me.rockyers.rocklib.utils.CC;
 import me.rockyers.rocklib.utils.PlayerUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -37,6 +38,8 @@ public class CommandManager implements TabExecutor {
         }
         thePlayer.sendMessage(CC.translate("&f----------------"));
     };
+
+    @Getter private boolean playSoundOnTab = false;
 
     /**
      * Full constructor
@@ -212,6 +215,7 @@ public class CommandManager implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
+            if (playSoundOnTab) player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 100, 1);
             if (permission == null || permission.isEmpty() || player.hasPermission(permission)) {
                 if (args.length == 1) {
                     ArrayList<String> subcommandsArguments = new ArrayList<>();
