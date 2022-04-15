@@ -132,6 +132,15 @@ public class CommandManager implements TabExecutor {
     }
 
     /**
+     * Method to set if a sound plays on TabComplete
+     * @param playSoundOnTab if a sound players on TabComplete
+     */
+    public CommandManager setPlaySoundOnTab(boolean playSoundOnTab) {
+        this.playSoundOnTab = playSoundOnTab;
+        return this;
+    }
+
+    /**
      * Method to check if an object equals this
      * @param o The object to compare
      * @return If the objects are equal (boolean)
