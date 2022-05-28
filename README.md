@@ -13,7 +13,7 @@ If you find a bug you can make an issue report! I am currently working on the do
 * CommandManager - An easy to use command manager to setup commands with subcommands really easily!  
 
 **Utilities:**
-* [CC](https://github.com/Rockyers/RockLib/wiki/Extra#cc) - A formating tool mainly used for the alternat format code
+* [CC](https://github.com/Rockyers/RockLib/wiki/Extra#cc) - A formating tool mainly used for the alternate format codes
 * PlayerUtil - A utility that I am adding lots to! Right now used to send messages easier
 * [RockRunnable](https://github.com/Rockyers/RockLib/wiki/Extra#the-rockrunnable) - It's a runnable, but with a Player argument! Used in the functionality for GUIs, Items, and Commands
 
